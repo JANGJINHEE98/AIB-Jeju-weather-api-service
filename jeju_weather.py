@@ -1,12 +1,10 @@
 from os import replace
 import requests
 import json 
-import bs4
 import pandas as pd
 import xml.etree.ElementTree as et
 import datetime
 from dateutil.relativedelta import relativedelta
-from requests.api import get
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode, quote_plus
 import sqlite3
@@ -25,7 +23,7 @@ def get_weather(date) :
     return the_weather['data'][4]
 
 weather_data_list = []
-for i in range(4) :
+for i in range(900) :
     day1 = day1 - relativedelta(days=1)
     weather_data_list.append(get_weather(day1))
 
@@ -59,11 +57,11 @@ def get_airport_info(date):
         item_dict['date'] = item.find('sdt').text
         item_dict['pcg'] = item.find('pcg').text # pcg : 단체 손님
         item_dict['pct'] = item.find('pct').text # pct : 개인 손님
-        item_dict['tof'] = item.find('tof').text # 혼잡 여부 / I : 여유, Y : 혼잡
+        item_dict['tof'] = item.find('tof').text # 
     return item_dict
 
 airport_df = pd.DataFrame()
-for i in range(4) :
+for i in range(900) :
     day2 = day2 - relativedelta(days=1)
     airport_df = airport_df.append(get_airport_info(day2), ignore_index=True)
     
