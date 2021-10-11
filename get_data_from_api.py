@@ -1,4 +1,3 @@
-from os import replace
 import requests
 import json 
 import pandas as pd
@@ -66,6 +65,8 @@ for i in range(900) :
     airport_df = airport_df.append(get_airport_info(day2), ignore_index=True)
     
 # print(airport_df)
+
+# [참고] 여기에서는 third_project_db에 데이터를 담았으나, 나중에 last_db로 수정됨.
 
 con = sqlite3.connect("/Users/zhenxi/Desktop/for_git/third_project/third_project_db.db")
 cur = con.cursor()

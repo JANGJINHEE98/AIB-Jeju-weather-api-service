@@ -21,7 +21,7 @@ def result(mmdd, day):
     con = sqlite3.connect("/Users/zhenxi/Desktop/for_git/third_project/AIB-Jeju-weather-api-service/last_db.db")
     
     # weather_predict는 dataframe
-    weather_predict = pd.read_sql(f"SELECT * FROM weather_predict wp WHERE MD = {mmdd}", con, index_col=None)
+    weather_predict = pd.read_sql(f"SELECT * FROM weather_predict wp WHERE MD = \"{mmdd}\"", con, index_col=None)
 
     # 전처리 (원래는 one-hot 인코딩으로 처리했던 요일(범주형데이터)을 가내수공업으로 인코딩 해줬다. 더 좋은 방법이 있을까?)
     weather_predict = weather_predict.assign(day_Tuesday=[0], day_Monday=[0], day_Sunday=[0], day_Saturday=[0], day_Friday=[0], day_Thursday=[0], day_Wednesday=[0])
@@ -45,15 +45,19 @@ def result(mmdd, day):
     weather_predict['MD'] = weather_predict['MD'].apply(pd.to_numeric)
 
     pred = model.predict(weather_predict)
-######################################################
-    # if 문으로 공항 혼잡 여부 반환하는거 추가해야함.  
-    airport_status = '혼잡 혹은 원활 등으로 나올 수 있게 추가하기'
+    pred = pred.tolist()
+    pred = pred[0]
+    pred = int(pred)*10
+
+    #5250은 공항 최대 수용인원이다. 
+    if pred > 5250 :
+        airport_status = '혼잡'
+    else : 
+        airport_status = '원활'
 
     con.close()
     return render_template('result.html', the_result=pred, airport_status = airport_status)
-    
 
 if __name__ == '__main__' :
     app.run(debug=True)
-
 

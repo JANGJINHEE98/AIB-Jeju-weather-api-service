@@ -3,10 +3,36 @@
     <title>
       result
     </title>
+    <style>
+      h1 {
+          font-size: 45px;
+          text-align: center;
+          font-family: arial;
+      }
+      h2 {
+        font-size: 33px;
+        text-align: center;
+        font-family: arial;
+      }
+      h5 {
+          font-size: 25px;
+          text-align: center;
+          font-family: arial;
+      }
+    </style>
   </head>
   <body>
-    <h2>예상 탑승객은 약 {{ the_result }} 명입니다.</h2>
-    <h2>공항 혼잡 여부 : {{ airport_status }}</h2>
+    <br>
+    <h1>Have a great flight with ON TIME 🛫</h1>
+    <hr align="center" style="border: solid 3px rgb(21, 58, 121); width: 70%;">
+    <h2>[ 결과 ]<h2>
+    <h5>예상 탑승객은 약 {{ the_result }} 명입니다.<br>
+      {% if airport_status == '원활' %}
+      공항 혼잡 여부 : <span style="color:blue">{{ airport_status }}</span>
+      {% else %} 
+      공항 혼잡 여부 : <span style="color:red">{{ airport_status }}</span>
+      {% endif %}
+    </h5>
   </body>
 </html>
 
